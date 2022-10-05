@@ -19,7 +19,7 @@ func CreateUser(userToCreate dtos.CreateUserDto) (models.User, error) {
 
 func Find() ([]models.User, error){
   users := [] models.User {}
-  result := db.DB.Find(&users)
+  result := db.DB.Preload("Tasks").Find(&users)
   if result.Error != nil {
     return users,nil
   }
@@ -29,7 +29,7 @@ func Find() ([]models.User, error){
 
 func FindById(userId string) (models.User, error) {
   user := models.User {}
-  result := db.DB.First(&user, userId)
+  result := db.DB.Preload("Tasks").First(&user, userId)
   if result.Error != nil {
     return user,nil
   }
