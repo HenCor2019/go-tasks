@@ -17,11 +17,13 @@ func Fetch(ids []int, wg *sync.WaitGroup) []models.Pokemon {
     go func(id int) {
       resp,err := http.Get("https://pokeapi.co/api/v2/pokemon/" + strconv.Itoa(id))
       if err != nil {
+        log.Fatal(err)
         log.Fatal("Cannot fetch the request with id: ", id)
         return
       }
 
       if resp.Status != "200 OK" {
+        log.Fatal(err)
         log.Fatal("Cannot fetch the request with id: ", id)
         return
       }
@@ -31,6 +33,7 @@ func Fetch(ids []int, wg *sync.WaitGroup) []models.Pokemon {
       var pokemonStruct models.Pokemon
       err = json.Unmarshal(bodyBytes, &pokemonStruct)
       if err != nil {
+        log.Fatal(err)
         log.Fatal("Cannot fetch the request with id: ", id)
         return
       }

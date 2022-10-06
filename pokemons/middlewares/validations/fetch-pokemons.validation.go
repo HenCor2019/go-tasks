@@ -1,7 +1,7 @@
-package UsersValidations
+package PokemonsValidations
 
 import (
-	"github.com/HenCor2019/task-go/users/dtos"
+	"github.com/HenCor2019/task-go/pokemons/dtos"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
@@ -13,7 +13,7 @@ type ErrorResponse struct {
     Value       string
 }
 
-func ValidateStruct(user dtos.CreateUserDto) []*ErrorResponse {
+func ValidateStruct(user pokemonsDtos.FindManyPokemonsDto) []*ErrorResponse {
     var errors []*ErrorResponse
     err := validate.Struct(user)
     if err != nil {
@@ -28,16 +28,16 @@ func ValidateStruct(user dtos.CreateUserDto) []*ErrorResponse {
     return errors
 }
 
-func CreateUser(c *fiber.Ctx) error {
-  createUserDto := new(dtos.CreateUserDto)
-  err := c.BodyParser(createUserDto)
+func FetchPokemonsByIds(c *fiber.Ctx) error {
+  fetchPokemonsByIdsDto := new(pokemonsDtos.FindManyPokemonsDto)
+  err := c.BodyParser(fetchPokemonsByIdsDto)
   if err != nil {
     panic(fiber.NewError(fiber.StatusBadRequest, err.Error()))
   }
 
-  errors := ValidateStruct(*createUserDto)
+  errors := ValidateStruct(*fetchPokemonsByIdsDto)
   if errors != nil {
-    return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+    return c.Status(fiber.StatusBadRequest).JSON(fiber.Map {
       "success": false,
       "content": nil,
       "message": errors,
