@@ -17,13 +17,6 @@ type PokemonForms struct {
   Url string
 }
 
-// type Pokemon struct {
-//   UserId int
-//   Id int
-//   Title string
-//   Completed *bool
-// }
-
 type Pokemon struct {
   Abilities []PokemonAbilities
   Base_experience int

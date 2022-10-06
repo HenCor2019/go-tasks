@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var CONNECTION_STRING = "host=localhost user=hencor password=password dbname=taskgodb port=5432"
+var CONNECTION_STRING = "host=postgres user=hencor password=password dbname=taskgodb port=5432"
 var DB *gorm.DB
 
 func DBConnection(){
