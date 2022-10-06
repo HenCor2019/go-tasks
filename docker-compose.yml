@@ -6,10 +6,14 @@ services:
       dockerfile: Dockerfile
       context: .
       target: dev
+    command: air -d
     volumes:
       - .:/opt/app/api
     ports:
-      - "3000:3000"
+      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${DEBUG_SERVER_PORT}:${DEBUG_SERVER_PORT}
+    env_file:
+      - .env
   postgres:
     container_name: db_postgres
     image: postgres:12

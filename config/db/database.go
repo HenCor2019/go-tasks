@@ -27,5 +27,5 @@ func DBConnection(){
     panic(err)
   }
 
-  log.Println("Connected to the database")
+  log.Println("Connected to the database successfully")
 }

@@ -2,18 +2,20 @@ package main
 
 import (
 	"log"
+
 	"github.com/HenCor2019/task-go/common/responses"
 	"github.com/HenCor2019/task-go/config/db"
 
-	"github.com/HenCor2019/task-go/users/controllers"
-	"github.com/HenCor2019/task-go/tasks/controllers"
 	"github.com/HenCor2019/task-go/pokemons/controllers"
+	"github.com/HenCor2019/task-go/tasks/controllers"
+	"github.com/HenCor2019/task-go/users/controllers"
 
-	"github.com/HenCor2019/task-go/users/middlewares/validations"
-	"github.com/HenCor2019/task-go/tasks/middlewares/validations"
 	"github.com/HenCor2019/task-go/pokemons/middlewares/validations"
+	"github.com/HenCor2019/task-go/tasks/middlewares/validations"
+	"github.com/HenCor2019/task-go/users/middlewares/validations"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/envvar"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
@@ -21,6 +23,7 @@ func main() {
   app := fiber.New(fiber.Config{ ErrorHandler: common.ErrorHandling, })
   v1 := app.Group("api/v1")
   app.Use(recover.New())
+  app.Use("/expose/envvars", envvar.New())
 
   v1.Get("healthcheck", func (c *fiber.Ctx) error {
     return c.SendString("ok")
