@@ -13,7 +13,7 @@ type ErrorResponse struct {
     Value       string
 }
 
-func ValidateStruct(user pokemonsDtos.FindManyPokemonsDto) []*ErrorResponse {
+func ValidateStruct(user pokemonsDtos.FetchPokemonsByIdsDto) []*ErrorResponse {
     var errors []*ErrorResponse
     err := validate.Struct(user)
     if err != nil {
@@ -29,7 +29,7 @@ func ValidateStruct(user pokemonsDtos.FindManyPokemonsDto) []*ErrorResponse {
 }
 
 func FetchPokemonsByIds(c *fiber.Ctx) error {
-  fetchPokemonsByIdsDto := new(pokemonsDtos.FindManyPokemonsDto)
+  fetchPokemonsByIdsDto := new(pokemonsDtos.FetchPokemonsByIdsDto)
   err := c.BodyParser(fetchPokemonsByIdsDto)
   if err != nil {
     panic(fiber.NewError(fiber.StatusBadRequest, err.Error()))

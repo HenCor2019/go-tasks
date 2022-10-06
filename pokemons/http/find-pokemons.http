@@ -2,5 +2,5 @@ GET http://localhost:3000/api/v1/pokemons
 Content-Type: application/json
 
 {
-  "Ids": [13,1,5,81,501,43,21,54]
+  "Ids": [13,1]
 }

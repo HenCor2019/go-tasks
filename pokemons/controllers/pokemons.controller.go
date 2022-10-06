@@ -13,9 +13,9 @@ type ErrorResponse struct {
     Value       string
 }
 func FindManyById(c *fiber.Ctx) error {
-  findManyPokemons := new(pokemonsDtos.FindManyPokemonsDto)
-  c.BodyParser(&findManyPokemons)
+  fetchPokemonsByIds := new(pokemonsDtos.FetchPokemonsByIdsDto)
+  c.BodyParser(&fetchPokemonsByIds)
 
-  pokemons := PokemonsServices.FindManyById(*findManyPokemons)
+  pokemons := PokemonsServices.FindManyById(*fetchPokemonsByIds)
   return common.SuccessResponse(c,pokemons,fiber.StatusOK)
 }

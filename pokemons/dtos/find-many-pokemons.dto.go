@@ -1,5 +1,5 @@
 package pokemonsDtos
 
-type FindManyPokemonsDto struct {
+type FetchPokemonsByIdsDto struct {
   Ids []int
 }
