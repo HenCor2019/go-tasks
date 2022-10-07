@@ -1,11 +1,21 @@
-FROM golang:1.19 as base
+FROM golang:1.19-buster AS build
+ARG DEBUG_SERVER_PORT
+ARG SERVER_PORT
 
-FROM base as dev
+WORKDIR $GOPATH/app/api
 
+# Delve for debugging and air for live reload
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 
-WORKDIR /opt/app/api
+COPY . .
+RUN go build -gcflags="all=-N -l"  -o main
+EXPOSE ${SERVER_PORT}
 
-RUN go install github.com/go-delve/delve/cmd/dlv
-RUN go build -gcflags="all=-N -l" -o main
-CMD ./main
+CMD ["./main"]
+
+# Entrypoints (It doesn't work)
+# COPY --from=build /go/app/main ~/main
+# COPY --from=build /go/bin/dlv ~/dlv
+# CMD dlv --listen=:${DEBUG_SERVER_PORT} --headless=true --api-version=2 --accept-multiclient exec ./main
+
