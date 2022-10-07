@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/HenCor2019/task-go/common/responses"
 	"github.com/HenCor2019/task-go/config/db"
@@ -41,5 +42,6 @@ func main() {
 
   v1.Use(common.NotFoundHandler)
   db.DBConnection()
-  log.Fatal(app.Listen(":3000"))
+  PORT := os.Getenv("SERVER_PORT")
+  log.Fatal(app.Listen(":"+PORT))
 }
