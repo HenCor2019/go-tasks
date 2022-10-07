@@ -22,7 +22,7 @@ services:
     volumes:
       - /private/var/lib/postgresql:/var/lib/postgresql
     ports:
-      - "${DB_HOST}:5432"
+      - "${DB_PORT}:5432"
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USERNAME}
