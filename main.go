@@ -47,6 +47,6 @@ func main() {
 
   v1.Use(common.NotFoundHandler)
   db.DBConnection()
-  PORT := viper.Get("SERVER_PORT")
+  PORT := viper.Get("PORT")
   log.Fatal(app.Listen(fmt.Sprintf(":%s", cast.ToString(PORT))))
 }
