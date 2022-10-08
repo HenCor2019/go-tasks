@@ -36,4 +36,3 @@ jobs:
           healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/api/v1/healthcheck"
           rollbackonhealthcheckfailed: true
           checkstring: "ok"
-          remote_branch: "master"
