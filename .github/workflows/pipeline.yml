@@ -20,3 +20,6 @@ jobs:
 
       - name: Build Binary
         run: go build -o main
+
+      - name: Build the docker image
+        run: docker build . --file Dockerfile --tag task-go:$(date +%s)
