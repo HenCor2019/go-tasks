@@ -1,10 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"os"
 
 	"github.com/HenCor2019/task-go/common/responses"
+	"github.com/HenCor2019/task-go/config"
 	"github.com/HenCor2019/task-go/config/db"
 
 	"github.com/HenCor2019/task-go/pokemons/controllers"
@@ -18,10 +19,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/envvar"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/spf13/cast"
+	"github.com/spf13/viper"
 )
 
 func main() {
   app := fiber.New(fiber.Config{ ErrorHandler: common.ErrorHandling, })
+  config.LoadConfig("./")
+
   v1 := app.Group("api/v1")
   app.Use(recover.New())
   app.Use("/expose/envvars", envvar.New())
@@ -42,6 +47,6 @@ func main() {
 
   v1.Use(common.NotFoundHandler)
   db.DBConnection()
-  PORT := os.Getenv("SERVER_PORT")
-  log.Fatal(app.Listen(":"+PORT))
+  PORT := viper.Get("SERVER_PORT")
+  log.Fatal(app.Listen(fmt.Sprintf(":%s", cast.ToString(PORT))))
 }
