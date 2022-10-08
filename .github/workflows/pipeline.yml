@@ -12,15 +12,13 @@ jobs:
   deploy:
     runs-on: ubuntu-18.04
     steps:
-      # - name: Cancel Previous Runs
-      #   uses: styfle/cancel-workflow-action
-      #   with:
-      #     access_token: ${{ github.token }}
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
       - uses: actions/checkout@v3
         with:
-          ref: main
-        # with:
-          # fetch-depth: 0
+          fetch-depth: 0
 
       - name: Setup Go
         uses: actions/setup-go@v3
@@ -30,10 +28,10 @@ jobs:
       - name: Build Binary
         run: go build -o main
 
-      # - name: Build the docker image
-      #   run: docker build . --file Dockerfile --tag task-go:$(date +%s)
+      - name: Upload docker image to github registry
+        run: docker build . --file Dockerfile --tag task-go:$(date +%s)
 
-      - name: Deploy to heroku
+      - name: Deploy to heroku with healthcheck
         if: ${{ github.event_name == 'push'}}
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
