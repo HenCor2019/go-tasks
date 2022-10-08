@@ -3,9 +3,9 @@ package db
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/HenCor2019/task-go/models"
-	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -16,7 +16,8 @@ func DBConnection(){
 
   var err error
 
-  dbConfig := viper.Get
+  // dbConfig := viper.Get
+  dbConfig := os.Getenv
 
   CONNECTION_STRING := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s",
                                     dbConfig("DB_HOST"),
