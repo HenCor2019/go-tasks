@@ -35,3 +35,4 @@ jobs:
           heroku_email: ${{secrets.HEROKU_API_EMAIL}}
           healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/api/v1/healthcheck"
           rollbackonhealthcheckfailed: true
+          branch: master
