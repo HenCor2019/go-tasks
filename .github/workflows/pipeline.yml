@@ -9,13 +9,17 @@ on:
     types: [opened,edited,synchronize]
 
 jobs:
-  deploy:
+  check_skip:
     runs-on: ubuntu-18.04
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
+
+  build:
+    runs-on: ubuntu-18.04
+    steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -28,15 +32,30 @@ jobs:
       - name: Build Binary
         run: go build -o main
 
+  build_docker:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Upload docker image to github registry
         run: docker build . --file Dockerfile --tag task-go:$(date +%s)
 
+  deploy:
+    needs: [build,build_docker]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
       - name: Deploy to heroku with healthcheck
         if: ${{ github.event_name == 'push'}}
-        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP}} #Must be unique in Heroku
+          heroku_app_name: ${{secrets.HEROKU_APP}}
           heroku_email: ${{secrets.HEROKU_API_EMAIL}}
           healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/api/v1/healthcheck"
           rollbackonhealthcheckfailed: true
