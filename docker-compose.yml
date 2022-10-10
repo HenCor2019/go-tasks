@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/go/app/api
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${PORT}:${PORT}
       - ${DEBUG_SERVER_PORT}:${DEBUG_SERVER_PORT}
     env_file:
       - .env
