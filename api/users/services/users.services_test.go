@@ -236,13 +236,14 @@ func TestFind(t *testing.T) {
 		{
 			Name:          "Should return all users",
 			ExpectedError: nil,
-			Result: []models.User{{
-				ID:    1,
-				Name:  "Henry Cortez",
-				Email: "hcortez@gmail.com",
-				Age:   18,
-				Tasks: []models.Task{},
-			},
+			Result: []models.User{
+				{
+					ID:    1,
+					Name:  "Henry Cortez",
+					Email: "hcortez@gmail.com",
+					Age:   18,
+					Tasks: []models.Task{},
+				},
 			},
 		},
 
@@ -251,13 +252,14 @@ func TestFind(t *testing.T) {
 			ExpectedError: fiber.NewError(fiber.StatusBadRequest, "Cannot find the users"),
 		},
 	}
-	repo.On("FindById").Return([]models.User{{
-		ID:    1,
-		Name:  "Henry Cortez",
-		Email: "hcortez@gmail.com",
-		Age:   18,
-		Tasks: []models.Task{},
-	},
+	repo.On("FindById").Return([]models.User{
+		{
+			ID:    1,
+			Name:  "Henry Cortez",
+			Email: "hcortez@gmail.com",
+			Age:   18,
+			Tasks: []models.Task{},
+		},
 	}, nil)
 
 	repo.On("FindById").Return([]models.User{}, errors.New("Cannot find in DB"))

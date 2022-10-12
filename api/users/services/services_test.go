@@ -8,11 +8,14 @@ import (
 	UsersRepositories "github.com/HenCor2019/task-go/api/users/repository"
 )
 
-var repo *UsersRepositories.MockUserRepository
-var userServicesMock UserService
+var (
+	repo             *UsersRepositories.MockUserRepository
+	userServicesMock UserService
+)
 
 func TestMain(m *testing.M) {
 	repo = &UsersRepositories.MockUserRepository{}
+
 	userServicesMock = New(repo)
 	repo.On("Find").Return([]models.User{{
 		Name:  "Henry Cortez",
