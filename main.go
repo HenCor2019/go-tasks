@@ -7,7 +7,7 @@ import (
 	"github.com/HenCor2019/task-go/api/config/db"
 
 	"github.com/HenCor2019/task-go/api/users/controllers"
-	"github.com/HenCor2019/task-go/api/users/repositories"
+	"github.com/HenCor2019/task-go/api/users/repository"
 	"github.com/HenCor2019/task-go/api/users/services"
 
 	"github.com/HenCor2019/task-go/api/tasks/controllers"

@@ -14,13 +14,13 @@ import (
 )
 
 type API struct {
- UserControllers *UsersControllers.Controller
- TaskControllers *TasksControllers.Controller
+ UserControllers UsersControllers.UserController
+ TaskControllers TasksControllers.TaskController
 }
 
 func New(
-  userControllers *UsersControllers.Controller,
-  taskControllers *TasksControllers.Controller,
+  userControllers UsersControllers.UserController,
+  taskControllers TasksControllers.TaskController,
 ) *API {
 	return &API{
 		UserControllers: userControllers,
@@ -42,7 +42,7 @@ func (api *API) Start(app *fiber.App) error {
   v1.Delete("users/:id<int,min(1)>/tasks", api.TaskControllers.DeleteTask)
   v1.Delete("users/:id<int,min(1)>", api.UserControllers.DeleteById)
 
-  v1.Post("users/:id<int,min(1)>/tasks", api.UserControllers.CreateUser)
+  v1.Post("users/:id<int,min(1)>/tasks", api.TaskControllers.CreateTask)
   v1.Post("users", api.UserControllers.CreateUser)
 
 

@@ -4,24 +4,24 @@ import (
 	"os"
 	"testing"
 
-	UsersRepositories "github.com/HenCor2019/task-go/api/users/repositories"
-	mock "github.com/stretchr/testify/mock"
+	"github.com/HenCor2019/task-go/api/models"
+	UsersRepositories "github.com/HenCor2019/task-go/api/users/repository"
 )
 
 var repo *UsersRepositories.MockUserRepository
-var userServicesMock *Service
+var userServicesMock UserService
 
 func TestMain(m *testing.M) {
 	repo = &UsersRepositories.MockUserRepository {}
-
-	repo.On("CreateUser", mock.Anything, mock.Anything).Return(nil, nil)
-	repo.On("Find", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil,nil)
-	repo.On("FindById", mock.Anything, mock.Anything, mock.Anything).Return(nil,nil)
-	repo.On("DeleteById", mock.Anything, mock.Anything, mock.Anything).Return(nil,nil)
-
- repo01 := &UsersRepositories.MockUserRepository {}
-	userServicesMock = New(repo01)
+	userServicesMock = New(repo)
+ repo.On("Find").Return([]models.User {{
+  Name:        "Henry Cortez",
+  Email:   "hcortez@gmail.com",
+  Age:  18,
+  Tasks: []models.Task{},
+ }})
 
 	code := m.Run()
 	os.Exit(code)
 }
+

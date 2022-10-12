@@ -2,23 +2,19 @@ package TasksServices
 
 import (
 	"github.com/HenCor2019/task-go/api/models"
-	"github.com/HenCor2019/task-go/api/users/dtos"
+	"github.com/HenCor2019/task-go/api/tasks/dtos"
 	"github.com/HenCor2019/task-go/api/tasks/repositories"
 )
 
 type TaskService interface {
-	CreateUser(createUserDto dtos.CreateUserDto) models.User
-	Find() []models.Task
-	FindById(taskId string,userId string) models.Task
-	DeleteById(taskId string,userId string) models.Task
+	CreateTask(createTaskDto tasksDtos.CreateTaskDto, userId string) models.Task
+	DeleteTaskById(taskId string,userId string)
 }
 
 type Service struct {
-	repo *TasksRepositories.Repository
+	repo TasksRepositories.TaskRepository
 }
 
-func New(repo *TasksRepositories.Repository) *Service {
-	return &Service{
-		repo: repo,
-	}
+func New(repo TasksRepositories.TaskRepository) TaskService {
+	return &Service{ repo }
 }

@@ -13,10 +13,10 @@ type UserController interface {
 }
 
 type Controller struct {
-	service *UsersServices.Service
+	service UsersServices.UserService
 }
 
-func New(service *UsersServices.Service) *Controller {
+func New(service UsersServices.UserService) UserController {
 	return &Controller{
 		service: service,
 	}

@@ -20,7 +20,7 @@ func (taskServices *Service) CreateTask(createTaskDto tasksDtos.CreateTaskDto, u
   return savedTask
 }
 
-func (taskServices *Service) DeleteTask(taskId string, userId string) {
+func (taskServices *Service) DeleteTaskById(taskId string, userId string) {
   user,err := taskServices.repo.FindUserById(userId)
   if err != nil {
     panic(fiber.NewError(fiber.StatusBadRequest,"User not found"))

@@ -11,11 +11,9 @@ type TaskController interface {
 }
 
 type Controller struct {
-	service *TasksServices.Service
+	service TasksServices.TaskService
 }
 
-func New(service *TasksServices.Service) *Controller {
-	return &Controller{
-		service: service,
-	}
+func New(service TasksServices.TaskService) TaskController {
+	return &Controller{ service }
 }

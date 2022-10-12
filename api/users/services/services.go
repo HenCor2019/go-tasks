@@ -3,9 +3,10 @@ package UsersServices
 import (
 	"github.com/HenCor2019/task-go/api/models"
 	"github.com/HenCor2019/task-go/api/users/dtos"
-	"github.com/HenCor2019/task-go/api/users/repositories"
+	"github.com/HenCor2019/task-go/api/users/repository"
 )
 
+//go:generate mockery --name=UserService --output=services --inpackage
 type UserService interface {
 	CreateUser(createUserDto dtos.CreateUserDto) models.User
 	Find() []models.User
@@ -14,11 +15,9 @@ type UserService interface {
 }
 
 type Service struct {
-	repo *UsersRepositories.Repository
+	repo UsersRepositories.UserRepository
 }
 
-func New(repo *UsersRepositories.Repository) *Service {
-	return &Service{
-		repo: repo,
-	}
+func New(repo UsersRepositories.UserRepository) UserService {
+	return &Service{ repo }
 }

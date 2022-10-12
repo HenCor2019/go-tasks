@@ -20,6 +20,6 @@ func (taskController *Controller) DeleteTask(c *fiber.Ctx) error {
   userId := c.Params("userId")
   taskId := c.Params("taskId")
 
-  taskController.service.DeleteTask(taskId,userId)
+  taskController.service.DeleteTaskById(taskId,userId)
   return common.SuccessResponse(c,nil,fiber.StatusNoContent)
 }

@@ -25,8 +25,8 @@ func (s *Service) FindById(userId string) models.User {
 }
 
 func (s *Service) DeleteById(userIdToDelete string) models.User {
-  _,err := s.repo.FindById(userIdToDelete)
-  if err != nil {
+  user,err := s.repo.FindById(userIdToDelete)
+  if err != nil || user.ID == 0 {
     panic(fiber.NewError(fiber.StatusNotFound, "User not found"))
   }
 

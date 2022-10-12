@@ -7,17 +7,17 @@ import (
 )
 
 type TaskRepository interface {
-	Create(createTaskDto tasksDtos.CreateTaskDto) (models.Task,error)
-	FindById(taskId string) (models.Task,error)
+	Create(createTaskDto tasksDtos.CreateTaskDto, userId uint) (models.Task,error)
+	FindById(taskId string, userId uint) (models.Task,error)
  FindUserById(userId string) (models.User,error)
-	DeleteById(taskId string) (models.Task,error)
+	DeleteById(taskId string) (error)
 }
 
 type Repository struct {
 	db *gorm.DB
 }
 
-func New(repo *gorm.DB) *Repository {
+func New(repo *gorm.DB) TaskRepository {
 	return &Repository{
 		db: repo,
 	}

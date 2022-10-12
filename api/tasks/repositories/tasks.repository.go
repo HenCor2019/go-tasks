@@ -17,9 +17,9 @@ func (r *Repository) Create(createTaskDto tasksDtos.CreateTaskDto, userId uint) 
   return taskToSave,nil
 }
 
-func (r *Repository) DeleteById(idTaskToDelete string) (error) {
+func (r *Repository) DeleteById(taskId string) (error) {
   taskToDelete := models.Task {}
-  result := r.db.Model(&models.Task{}).Delete(&taskToDelete,idTaskToDelete)
+  result := r.db.Model(&models.Task{}).Delete(&taskToDelete,taskId)
 
   if result.Error != nil {
     return result.Error

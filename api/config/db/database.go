@@ -27,7 +27,7 @@ func New() (*gorm.DB, error) {
     panic(err)
   }
 
-  err = DB.AutoMigrate(&models.User {})
+  err = DB.AutoMigrate(&models.User {},&models.Task{})
   if err != nil {
     log.Fatal("Error connection to the database")
     panic(err)
