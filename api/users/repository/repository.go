@@ -6,6 +6,9 @@ import (
 	"gorm.io/gorm"
 )
 
+// Repository is the interface that wraps the basic CRUD operations.
+//
+//go:generate mockery --name=UserRepository --output=repository --inpackage
 type UserRepository interface {
 	Find() ([]models.User,error)
 	CreateUser(createUserDto dtos.CreateUserDto) (models.User,error)
@@ -18,7 +21,7 @@ type Repository struct {
 }
 
 
-func New(repo *gorm.DB) *Repository {
+func New(repo *gorm.DB) UserRepository {
 	return &Repository{
 		db: repo,
 	}
