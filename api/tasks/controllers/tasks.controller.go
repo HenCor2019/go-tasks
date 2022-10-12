@@ -8,7 +8,10 @@ import (
 
 func (taskController *Controller) CreateTask(c *fiber.Ctx) error {
 	createTaskDto := tasksDtos.CreateTaskDto{}
-	c.BodyParser(&createTaskDto)
+	err := c.BodyParser(&createTaskDto)
+	if err != nil {
+		panic(fiber.NewError(fiber.StatusBadRequest, "Information is malformed"))
+	}
 
 	userId := c.Params("id")
 	savedTask := taskController.service.CreateTask(createTaskDto, userId)

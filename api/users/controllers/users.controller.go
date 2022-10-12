@@ -8,7 +8,10 @@ import (
 
 func (controller *Controller) CreateUser(c *fiber.Ctx) error {
 	createUserDto := dtos.CreateUserDto{}
-	c.BodyParser(&createUserDto)
+	err := c.BodyParser(&createUserDto)
+	if err != nil {
+		panic(fiber.NewError(fiber.StatusBadRequest, "Information is malformed"))
+	}
 	savedUser := controller.service.CreateUser(createUserDto)
 	return common.SuccessResponse(c, savedUser, fiber.StatusCreated)
 }

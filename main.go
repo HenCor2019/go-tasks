@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"log"
 
 	"github.com/HenCor2019/task-go/api"
 	"github.com/HenCor2019/task-go/api/config/db"
@@ -53,7 +52,7 @@ func setLifeCycle(
 ) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			log.Fatal(a.Start(app))
+			go a.Start(app) // nolint
 
 			return nil
 		},
