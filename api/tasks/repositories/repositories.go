@@ -7,10 +7,10 @@ import (
 )
 
 type TaskRepository interface {
-	Create(createTaskDto tasksDtos.CreateTaskDto, userId uint) (models.Task,error)
-	FindById(taskId string, userId uint) (models.Task,error)
- FindUserById(userId string) (models.User,error)
-	DeleteById(taskId string) (error)
+	Create(createTaskDto tasksDtos.CreateTaskDto, userId uint) (models.Task, error)
+	FindById(taskId string, userId uint) (models.Task, error)
+	FindUserById(userId string) (models.User, error)
+	DeleteById(taskId string) error
 }
 
 type Repository struct {

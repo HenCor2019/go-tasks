@@ -7,42 +7,42 @@ import (
 )
 
 func (s *Service) CreateUser(createUserDto dtos.CreateUserDto) models.User {
-  savedUser,err := s.repo.CreateUser(createUserDto)
-  if err != nil {
-    panic(fiber.NewError(fiber.StatusBadRequest, "Cannot create the users"))
-  }
+	savedUser, err := s.repo.CreateUser(createUserDto)
+	if err != nil {
+		panic(fiber.NewError(fiber.StatusBadRequest, "Cannot create the users"))
+	}
 
-  return savedUser
+	return savedUser
 }
 
 func (s *Service) FindById(userId string) models.User {
-  user,err := s.repo.FindById(userId)
-  if err != nil || user.ID == 0 {
-    panic(fiber.NewError(fiber.StatusNotFound, "User not found"))
-  }
+	user, err := s.repo.FindById(userId)
+	if err != nil || user.ID == 0 {
+		panic(fiber.NewError(fiber.StatusNotFound, "User not found"))
+	}
 
-  return user
+	return user
 }
 
 func (s *Service) DeleteById(userIdToDelete string) models.User {
-  user,err := s.repo.FindById(userIdToDelete)
-  if err != nil || user.ID == 0 {
-    panic(fiber.NewError(fiber.StatusNotFound, "User not found"))
-  }
+	user, err := s.repo.FindById(userIdToDelete)
+	if err != nil || user.ID == 0 {
+		panic(fiber.NewError(fiber.StatusNotFound, "User not found"))
+	}
 
-  deletedUser,err := s.repo.DeleteById(userIdToDelete)
-  if err != nil {
-    panic(fiber.NewError(fiber.StatusBadRequest, "Cannot delete the user"))
-  }
+	deletedUser, err := s.repo.DeleteById(userIdToDelete)
+	if err != nil {
+		panic(fiber.NewError(fiber.StatusBadRequest, "Cannot delete the user"))
+	}
 
-  return deletedUser
+	return deletedUser
 }
 
 func (s *Service) Find() []models.User {
-  users,err := s.repo.Find()
-  if err != nil {
-    panic(fiber.NewError(fiber.StatusBadRequest, "Cannot find the users"))
-  }
+	users, err := s.repo.Find()
+	if err != nil {
+		panic(fiber.NewError(fiber.StatusBadRequest, "Cannot find the users"))
+	}
 
-  return users
+	return users
 }

@@ -1,8 +1,8 @@
 package UsersControllers
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"github.com/HenCor2019/task-go/api/users/services"
+	"github.com/gofiber/fiber/v2"
 )
 
 type UserController interface {

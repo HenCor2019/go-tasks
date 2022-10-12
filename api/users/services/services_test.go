@@ -12,16 +12,15 @@ var repo *UsersRepositories.MockUserRepository
 var userServicesMock UserService
 
 func TestMain(m *testing.M) {
-	repo = &UsersRepositories.MockUserRepository {}
+	repo = &UsersRepositories.MockUserRepository{}
 	userServicesMock = New(repo)
- repo.On("Find").Return([]models.User {{
-  Name:        "Henry Cortez",
-  Email:   "hcortez@gmail.com",
-  Age:  18,
-  Tasks: []models.Task{},
- }})
+	repo.On("Find").Return([]models.User{{
+		Name:  "Henry Cortez",
+		Email: "hcortez@gmail.com",
+		Age:   18,
+		Tasks: []models.Task{},
+	}})
 
 	code := m.Run()
 	os.Exit(code)
 }
-

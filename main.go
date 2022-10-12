@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log"
 
 	"github.com/HenCor2019/task-go/api"
 	"github.com/HenCor2019/task-go/api/config/db"
@@ -25,13 +26,13 @@ func main() {
 		fx.Provide(
 			UsersRepositories.New,
 			UsersServices.New,
-   UsersControllers.New,
+			UsersControllers.New,
 		),
 
 		fx.Provide(
 			TasksRepositories.New,
 			TasksServices.New,
-   TasksControllers.New,
+			TasksControllers.New,
 		),
 
 		fx.Provide(
@@ -46,13 +47,13 @@ func main() {
 }
 
 func setLifeCycle(
-  lc fx.Lifecycle,
-  a *api.API,
-  app *fiber.App,
+	lc fx.Lifecycle,
+	a *api.API,
+	app *fiber.App,
 ) {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
-			go a.Start(app)
+			log.Fatal(a.Start(app))
 
 			return nil
 		},

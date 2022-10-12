@@ -11,28 +11,28 @@ import (
 )
 
 func New() (*gorm.DB, error) {
-  dbConfig := os.Getenv
+	dbConfig := os.Getenv
 
-  CONNECTION_STRING := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s",
-                                    dbConfig("DB_HOST"),
-                                    dbConfig("DB_USERNAME"),
-                                    dbConfig("DB_PASSWORD"),
-                                    dbConfig("DB_NAME"),
-                                    dbConfig("DB_PORT"),
-                       )
-  DB, err := gorm.Open(postgres.Open(CONNECTION_STRING ), &gorm.Config{})
+	CONNECTION_STRING := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s",
+		dbConfig("DB_HOST"),
+		dbConfig("DB_USERNAME"),
+		dbConfig("DB_PASSWORD"),
+		dbConfig("DB_NAME"),
+		dbConfig("DB_PORT"),
+	)
+	DB, err := gorm.Open(postgres.Open(CONNECTION_STRING), &gorm.Config{})
 
-  if err != nil {
-    log.Fatal("Cannot connect to the database")
-    panic(err)
-  }
+	if err != nil {
+		log.Fatal("Cannot connect to the database")
+		panic(err)
+	}
 
-  err = DB.AutoMigrate(&models.User {},&models.Task{})
-  if err != nil {
-    log.Fatal("Error connection to the database")
-    panic(err)
-  }
+	err = DB.AutoMigrate(&models.User{}, &models.Task{})
+	if err != nil {
+		log.Fatal("Error connection to the database")
+		panic(err)
+	}
 
-  log.Println("Connected to the database successfully")
-  return DB,nil
+	log.Println("Connected to the database successfully")
+	return DB, nil
 }

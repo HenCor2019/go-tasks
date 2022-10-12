@@ -32,7 +32,6 @@ func (_m *MockUserRepository) CreateUser(createUserDto dtos.CreateUserDto) (mode
 		r1 = ret.Error(1)
 	}
 
-
 	return r0, r1
 }
 
@@ -53,7 +52,6 @@ func (_m *MockUserRepository) DeleteById(userId string) (models.User, error) {
 	} else {
 		r1 = ret.Error(1)
 	}
-
 
 	return r0, r1
 }

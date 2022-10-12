@@ -19,5 +19,5 @@ type Service struct {
 }
 
 func New(repo UsersRepositories.UserRepository) UserService {
-	return &Service{ repo }
+	return &Service{repo}
 }

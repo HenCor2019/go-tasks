@@ -15,5 +15,5 @@ type Controller struct {
 }
 
 func New(service TasksServices.TaskService) TaskController {
-	return &Controller{ service }
+	return &Controller{service}
 }

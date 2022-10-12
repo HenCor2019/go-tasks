@@ -8,7 +8,7 @@ import (
 
 type TaskService interface {
 	CreateTask(createTaskDto tasksDtos.CreateTaskDto, userId string) models.Task
-	DeleteTaskById(taskId string,userId string)
+	DeleteTaskById(taskId string, userId string)
 }
 
 type Service struct {
@@ -16,5 +16,5 @@ type Service struct {
 }
 
 func New(repo TasksRepositories.TaskRepository) TaskService {
-	return &Service{ repo }
+	return &Service{repo}
 }

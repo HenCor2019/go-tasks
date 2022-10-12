@@ -10,16 +10,15 @@ import (
 //
 //go:generate mockery --name=UserRepository --output=repository --inpackage
 type UserRepository interface {
-	Find() ([]models.User,error)
-	CreateUser(createUserDto dtos.CreateUserDto) (models.User,error)
-	FindById(userId string) (models.User,error)
-	DeleteById(userId string) (models.User,error)
+	Find() ([]models.User, error)
+	CreateUser(createUserDto dtos.CreateUserDto) (models.User, error)
+	FindById(userId string) (models.User, error)
+	DeleteById(userId string) (models.User, error)
 }
 
 type Repository struct {
 	db *gorm.DB
 }
-
 
 func New(repo *gorm.DB) UserRepository {
 	return &Repository{
