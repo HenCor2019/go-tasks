@@ -12,7 +12,6 @@ func (taskServices *Service) CreateTask(createTaskDto tasksDtos.CreateTaskDto, u
 		panic(fiber.NewError(fiber.StatusBadRequest, "User not found"))
 	}
 	savedTask, err := taskServices.repo.Create(createTaskDto, user.ID)
-
 	if err != nil {
 		panic(fiber.NewError(fiber.StatusBadRequest, "Cannot save the task"))
 	}

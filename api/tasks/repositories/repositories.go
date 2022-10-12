@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+//go:generate mockery --name=TaskRepository --output=repositories --inpackage
 type TaskRepository interface {
 	Create(createTaskDto tasksDtos.CreateTaskDto, userId uint) (models.Task, error)
 	FindById(taskId string, userId uint) (models.Task, error)
