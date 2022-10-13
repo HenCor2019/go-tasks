@@ -2,10 +2,11 @@ version: "3.9"
 
 services:
   app:
+    container_name: task-golang-api
     build:
       context: .
       target: build
-    command: air -d
+    command: make start.watch
     volumes:
       - .:/go/app/api
     ports:
