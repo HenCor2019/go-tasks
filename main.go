@@ -14,6 +14,10 @@ import (
 	"github.com/HenCor2019/task-go/api/tasks/repositories"
 	"github.com/HenCor2019/task-go/api/tasks/services"
 
+	"github.com/HenCor2019/task-go/api/pokemons/controllers"
+	"github.com/HenCor2019/task-go/api/pokemons/gateways"
+	"github.com/HenCor2019/task-go/api/pokemons/services"
+
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/fx"
 )
@@ -26,6 +30,12 @@ func main() {
 			UsersRepositories.New,
 			UsersServices.New,
 			UsersControllers.New,
+		),
+
+		fx.Provide(
+			PokemonsGateways.New,
+			PokemonsServices.New,
+			PokemonsControllers.New,
 		),
 
 		fx.Provide(
