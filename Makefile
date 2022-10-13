@@ -10,7 +10,10 @@ start.prod:
 	go build -o main && ./main
 
 lint:
-	go fmt . && golangci-lint run .
+	@echo "FORMATTING"
+	go fmt ./...
+	@echo "LINTING: golangci-lint"
+	golangci-lint run .
 
 start.test:
 	go test -v ./...
