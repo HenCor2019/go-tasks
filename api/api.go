@@ -7,6 +7,8 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/HenCor2019/task-go/api/common/responses"
+
+	"github.com/HenCor2019/task-go/api/pokemons/controllers"
 	"github.com/HenCor2019/task-go/api/tasks/controllers"
 	"github.com/HenCor2019/task-go/api/users/controllers"
 
@@ -15,17 +17,20 @@ import (
 )
 
 type API struct {
-	UserControllers UsersControllers.UserController
-	TaskControllers TasksControllers.TaskController
+	UserControllers    UsersControllers.UserController
+	TaskControllers    TasksControllers.TaskController
+	PokemonControllers PokemonsControllers.PokemonController
 }
 
 func New(
 	userControllers UsersControllers.UserController,
 	taskControllers TasksControllers.TaskController,
+	pokemonControllers PokemonsControllers.PokemonController,
 ) *API {
 	return &API{
-		UserControllers: userControllers,
-		TaskControllers: taskControllers,
+		UserControllers:    userControllers,
+		TaskControllers:    taskControllers,
+		PokemonControllers: pokemonControllers,
 	}
 }
 
@@ -39,6 +44,7 @@ func (api *API) Start(app *fiber.App) error {
 
 	v1.Get("users", api.UserControllers.Find)
 	v1.Get("users/:id<int,min(1)>", api.UserControllers.FindById)
+	v1.Get("pokemons/", api.PokemonControllers.FindManyById)
 
 	v1.Delete("users/:id<int,min(1)>/tasks", api.TaskControllers.DeleteTask)
 	v1.Delete("users/:id<int,min(1)>", api.UserControllers.DeleteById)
