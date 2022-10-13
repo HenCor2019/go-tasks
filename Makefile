@@ -1,4 +1,4 @@
-COVER_MODULES = ./api/tasks/services/ ./api/users/services/
+COVER_MODULES = ./api/users/services/ ./api/tasks/services/ ./api/pokemons/services/
 
 start:
 	go run .

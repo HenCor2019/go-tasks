@@ -4,6 +4,7 @@ import (
 	"github.com/HenCor2019/task-go/api/models"
 )
 
+//go:generate mockery --name=PokemonGateway --output=gateways --inpackage
 type PokemonGateway interface {
 	FetchPokemonsByIds(pokemonsIds []int) ([]models.Pokemon, error)
 }
