@@ -41,12 +41,7 @@ func TestCreateTask(t *testing.T) {
 				Title:       "Test title to create",
 				Description: "Test description to create",
 			},
-			Result: models.Task{
-				ID:          0,
-				Title:       "Test task",
-				Description: "Test task description",
-				UserID:      1,
-			},
+			Result:        models.Task{},
 			UserId:        "2",
 			ExpectedError: fiber.NewError(fiber.StatusBadRequest, "User not found"),
 		},
@@ -54,25 +49,21 @@ func TestCreateTask(t *testing.T) {
 		{
 			Name: "Should throw an error if task cannot be created",
 			Dto: tasksDtos.CreateTaskDto{
-				Title:       "Test title to create",
-				Description: "Test description to create",
+				Title:       "Test title cannot be created",
+				Description: "Test description cannot be created",
 			},
 			Result: models.Task{
 				ID:          1,
 				Title:       "Test task",
 				Description: "Test task description",
-				UserID:      2,
+				UserID:      3,
 			},
 			UserId:        "3",
 			ExpectedError: fiber.NewError(fiber.StatusBadRequest, "Cannot save the task"),
 		},
 	}
 
-	repo.On("FindUserById", "1").Return(models.User{
-		ID:   1,
-		Name: "Test name",
-		Age:  18,
-	}, nil)
+	repo.On("FindUserById", "1").Return(models.User{ID: 1}, nil)
 
 	repo.On("Create", tasksDtos.CreateTaskDto{
 		Title:       "Test title to create",
@@ -84,26 +75,14 @@ func TestCreateTask(t *testing.T) {
 		UserID:      1,
 	}, nil)
 
-	repo.On("FindUserById", "2").Return(models.User{
-		ID:   0,
-		Name: "",
-		Age:  0,
-	}, errors.New("User not found"))
+	repo.On("FindUserById", "2").Return(models.User{}, errors.New("User not found"))
 
-	repo.On("FindUserById", "3").Return(models.User{
-		ID:   1,
-		Name: "Test name",
-		Age:  18,
-	}, nil)
+	repo.On("FindUserById", "3").Return(models.User{ID: 3}, nil)
 
 	repo.On("Create", tasksDtos.CreateTaskDto{
-		Title:       "Test title to create",
-		Description: "Test description to create",
-	}, cast.ToUint(3)).Return(models.Task{
-		ID:          0,
-		Title:       "Test task",
-		Description: "Test task description",
-	}, errors.New("Cannot create the task"))
+		Title:       "Test title cannot be created",
+		Description: "Test description cannot be created",
+	}, cast.ToUint(3)).Return(models.Task{}, errors.New("Cannot create the task"))
 
 	for i := range testCases {
 		tc := testCases[i]

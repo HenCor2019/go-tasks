@@ -114,13 +114,7 @@ func TestFindById(t *testing.T) {
 			Name:          "Should throw an error if user doesn't exist",
 			ExpectedError: fiber.NewError(fiber.StatusNotFound, "User not found"),
 			UserId:        "2",
-			Result: models.User{
-				ID:    0,
-				Name:  "",
-				Email: "",
-				Age:   0,
-				Tasks: nil,
-			},
+			Result:        models.User{},
 		},
 	}
 	repo.On("FindById", "1").Return(models.User{
@@ -131,13 +125,7 @@ func TestFindById(t *testing.T) {
 		Tasks: []models.Task{},
 	}, nil)
 
-	repo.On("FindById", "2").Return(models.User{
-		ID:    0,
-		Name:  "",
-		Email: "",
-		Age:   0,
-		Tasks: nil,
-	}, errors.New("Cannot find in DB"))
+	repo.On("FindById", "2").Return(models.User{}, errors.New("Cannot find in DB"))
 
 	for i := range testCases {
 		tc := testCases[i]
@@ -195,21 +183,13 @@ func TestDeleteById(t *testing.T) {
 		Tasks: []models.Task{},
 	}, nil)
 
-	repo.On("FindById", "2").Return(models.User{
-		ID:    0,
-		Name:  "",
-		Email: "",
-		Age:   0,
-		Tasks: nil,
-	}, errors.New("Cannot find in DB"))
+	repo.On("FindById", "1").Return(models.User{ID: 1}, nil).Once()
+	repo.On("DeleteById", "1").Return(models.User{ID: 1}, nil).Once()
 
-	repo.On("FindById", "3").Return(models.User{
-		ID:    0,
-		Name:  "",
-		Email: "",
-		Age:   0,
-		Tasks: nil,
-	}, errors.New("Cannot find in DB"))
+	repo.On("FindById", "2").Return(models.User{}, errors.New("Cannot find in DB")).Once()
+
+	repo.On("FindById", "3").Return(models.User{ID: 1}, nil).Once()
+	repo.On("DeleteById", "3").Return(models.User{}, errors.New("Cannot find in DB")).Once()
 
 	for i := range testCases {
 		tc := testCases[i]
@@ -219,7 +199,7 @@ func TestDeleteById(t *testing.T) {
 			t.Parallel()
 
 			defer func() { recover() }()
-			result := userServicesMock.FindById(tc.UserId)
+			result := userServicesMock.DeleteById(tc.UserId)
 			if result.ID != tc.Result.ID {
 				t.Errorf("Expected error %v, got %v", tc.ExpectedError, result)
 			}
@@ -252,7 +232,7 @@ func TestFind(t *testing.T) {
 			ExpectedError: fiber.NewError(fiber.StatusBadRequest, "Cannot find the users"),
 		},
 	}
-	repo.On("FindById").Return([]models.User{
+	repo.On("Find").Return([]models.User{
 		{
 			ID:    1,
 			Name:  "Henry Cortez",
@@ -260,9 +240,9 @@ func TestFind(t *testing.T) {
 			Age:   18,
 			Tasks: []models.Task{},
 		},
-	}, nil)
+	}, nil).Once()
 
-	repo.On("FindById").Return([]models.User{}, errors.New("Cannot find in DB"))
+	repo.On("Find").Return([]models.User{}, errors.New("Cannot find in DB")).Once()
 
 	for i := range testCases {
 		tc := testCases[i]
