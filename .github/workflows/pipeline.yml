@@ -32,7 +32,24 @@ jobs:
       - name: Build Binary
         run: go build -o main
 
+  test:
+    needs: [build]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - name:  Run tests
+        run: go test ./...
+
   build_docker:
+    needs: [test]
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v3

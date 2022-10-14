@@ -1,51 +1,73 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"os"
+	"context"
 
-	"github.com/HenCor2019/task-go/common/responses"
-	"github.com/HenCor2019/task-go/config/db"
+	"github.com/HenCor2019/task-go/api"
+	"github.com/HenCor2019/task-go/api/config/db"
 
-	"github.com/HenCor2019/task-go/pokemons/controllers"
-	"github.com/HenCor2019/task-go/tasks/controllers"
-	"github.com/HenCor2019/task-go/users/controllers"
+	"github.com/HenCor2019/task-go/api/users/controllers"
+	"github.com/HenCor2019/task-go/api/users/repository"
+	"github.com/HenCor2019/task-go/api/users/services"
 
-	"github.com/HenCor2019/task-go/pokemons/middlewares/validations"
-	"github.com/HenCor2019/task-go/tasks/middlewares/validations"
-	"github.com/HenCor2019/task-go/users/middlewares/validations"
+	"github.com/HenCor2019/task-go/api/tasks/controllers"
+	"github.com/HenCor2019/task-go/api/tasks/repositories"
+	"github.com/HenCor2019/task-go/api/tasks/services"
+
+	"github.com/HenCor2019/task-go/api/pokemons/controllers"
+	"github.com/HenCor2019/task-go/api/pokemons/gateways"
+	"github.com/HenCor2019/task-go/api/pokemons/services"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/envvar"
-	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/spf13/cast"
+	"go.uber.org/fx"
 )
 
 func main() {
-  app := fiber.New(fiber.Config{ ErrorHandler: common.ErrorHandling, })
-  // config.LoadConfig("./")
+	app := fx.New(
+		fx.Provide(db.New),
 
-  v1 := app.Group("api/v1")
-  app.Use(recover.New())
-  app.Use("/expose/envvars", envvar.New())
+		fx.Provide(
+			UsersRepositories.New,
+			UsersServices.New,
+			UsersControllers.New,
+		),
 
-  v1.Get("healthcheck", func (c *fiber.Ctx) error {
-    return c.SendString("ok")
-  })
+		fx.Provide(
+			PokemonsGateways.New,
+			PokemonsServices.New,
+			PokemonsControllers.New,
+		),
 
-  v1.Get("users/", UsersControllers.Find)
-  v1.Get("users/:id<int;min(1)>", UsersControllers.FindById)
-  v1.Post("users/", UsersValidations.CreateUser ,UsersControllers.CreateUser)
-  v1.Delete("users/:id<int,min(1)>", UsersControllers.DeleteById)
+		fx.Provide(
+			TasksRepositories.New,
+			TasksServices.New,
+			TasksControllers.New,
+		),
 
-  v1.Post("users/:id<int,min(1)>/tasks", TasksValidations.CreateTask ,TasksController.CreateTask)
-  v1.Delete("users/:userId<int,min(1)>/tasks/:taskId<int,min(1)>", TasksController.DeleteTask)
+		fx.Provide(
+			api.New,
+			fiber.New,
+		),
 
-  v1.Get("pokemons/", PokemonsValidations.FetchPokemonsByIds,PokemonsControllers.FindManyById)
+		fx.Invoke(setLifeCycle),
+	)
 
-  v1.Use(common.NotFoundHandler)
-  db.DBConnection()
-  PORT := os.Getenv("PORT")
-  log.Fatal(app.Listen(fmt.Sprintf(":%s", cast.ToString(PORT))))
+	app.Run()
+}
+
+func setLifeCycle(
+	lc fx.Lifecycle,
+	a *api.API,
+	app *fiber.App,
+) {
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			go a.Start(app) // nolint
+
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			return nil
+		},
+	})
 }
