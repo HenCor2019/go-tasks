@@ -1,5 +1,5 @@
 SHELL=/bin/bash
-TEST_COVERAGE_THRESHOLD=80
+TEST_COVERAGE_THRESHOLD=85
 COVER_MODULES = ./api/users/services/ ./api/tasks/services/ ./api/pokemons/services/
 
 start:
